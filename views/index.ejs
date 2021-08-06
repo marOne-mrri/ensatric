@@ -14,5 +14,16 @@
       <textarea name="message" id="message" cols="30" rows="10"></textarea>
       <button type="submit">submit</button>
     </form>
+    <ul>
+      <% if (result !== null) { %>
+        <li>name: <%= result.name %></li>
+        <li>email: <%= result.email %></li>
+        <li>message <%= result.message %></li>
+      <% } else if (errors !== null) { %>
+        <% for (let error of errors) { %>
+          <li style="color: red;">error: <%= error.msg %></li>
+        <% } %>
+      <% } %>
+      </ul>
   </body>
 </html>
