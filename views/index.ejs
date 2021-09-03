@@ -1,29 +1,676 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <form action="/contact" method="POST">
-      <label for="name">full name</label>
-      <input type="text" name="name" id="name">
-      <label for="name">email address</label>
-      <input type="email" name="email" id="email">
-      <label for="name">message</label>
-      <textarea name="message" id="message" cols="30" rows="10"></textarea>
-      <button type="submit">submit</button>
-    </form>
-    <ul>
-      <% if (result !== null) { %>
-        <li>name: <%= result.name %></li>
-        <li>email: <%= result.email %></li>
-        <li>message <%= result.message %></li>
-      <% } else if (errors !== null) { %>
-        <% for (let error of errors) { %>
-          <li style="color: red;">error: <%= error.msg %></li>
-        <% } %>
-      <% } %>
-      </ul>
-  </body>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link type="text/css" rel='stylesheet' href='/stylesheets/style.css' />
+  <link type="text/css" rel='stylesheet' href='/stylesheets/custom.css' />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css"
+    integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- font awsome icons -->
+  <link type="text/css" rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+
+</head>
+
+<body class="bg-gray-200">
+  <nav class="bg-white shadow-xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-2 lg:px-6 lg:px-8">
+      <div class="relative flex items-center justify-between h-16">
+        <div class="absolute inset-y-0 left-0 flex items-center lg:hidden">
+          <!-- Mobile menu button-->
+          <button type="button" id="mobile-menu-button" class="
+                inline-flex
+                items-center
+                justify-center
+                p-2
+                rounded-md
+                text-gray-400
+                hover:text-white hover:bg-gray-700
+                focus:outline-none
+                focus:ring-2
+                focus:ring-inset
+                focus:ring-white
+              " aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <!--
+                  Icon when menu is closed.
+      
+                  Heroicon name: outline/menu
+      
+                  Menu open: "hidden", Menu closed: "block"
+                -->
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <!--
+                  Icon when menu is open.
+      
+                  Heroicon name: outline/x
+      
+                  Menu open: "block", Menu closed: "hidden"
+                -->
+            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="
+              flex-1 flex
+              items-center
+              justify-center
+              lg:items-stretch lg:justify-start
+            ">
+          <div class="flex-shrink-0 flex items-center">
+            <img class="block lg:hidden h-auto w-40" src="/images/logo-EnsaTric(custom).png" alt="Workflow" />
+            <img class="hidden lg:block h-auto w-40" src="/images/logo-EnsaTric(custom).png" alt="Workflow" />
+          </div>
+          <div class="
+                hidden
+                flex
+                justify-center
+                items-center
+                lg:block lg:ml-6
+                my-10
+                w-full
+              ">
+            <div class="flex items-center space-x-4 justify-center">
+              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+              <a href="#banner-area" class="
+                    menu_item
+                    bg-gray-500
+                    text-white
+                    px-3
+                    py-2
+                    rounded-md
+                    text-sm
+                    font-medium
+                  " aria-current="page">Accueil</a>
+
+              <a href="#about" class="
+                    menu_item
+                    text-gray-500
+                    hover:bg-gray-500 hover:text-white
+                    px-3
+                    py-2
+                    rounded-md
+                    text-sm
+                    font-medium
+                  ">A propos de nous</a>
+
+              <a href="#project" class="
+                    menu_item
+                    text-gray-500
+                    hover:bg-gray-500 hover:text-white
+                    px-3
+                    py-2
+                    rounded-md
+                    text-sm
+                    font-medium
+                  ">Projet</a>
+
+              <a href="#members" class="
+                    menu_item
+                    text-gray-500
+                    hover:bg-gray-500 hover:text-white
+                    px-3
+                    py-2
+                    rounded-md
+                    text-sm
+                    font-medium
+                  ">Membres</a>
+
+              <a href="#supporters" class="
+                    menu_item
+                    text-gray-500
+                    hover:bg-gray-500 hover:text-white
+                    px-3
+                    py-2
+                    rounded-md
+                    text-sm
+                    font-medium
+                  ">Supporteurs</a>
+
+              <a href="#footer" class="
+                    menu_item
+                    text-gray-500
+                    hover:bg-gray-500 hover:text-white
+                    px-3
+                    py-2
+                    rounded-md
+                    text-sm
+                    font-medium
+                  ">Sponsors</a>
+            </div>
+          </div>
+          <div class="
+                hidden
+                lg:inline
+                absolute
+                inset-y-0
+                right-0
+                flex
+                items-center
+                pr-2
+                mt-10
+                lg:static lg:inset-auto lg:ml-6 lg:pr-0
+              ">
+            <div>
+              <a href="#" class="
+                    bg-red-400
+                    text-white
+                    hover:bg-white hover:text-red-400
+                    px-3
+                    py-2
+                    rounded-md
+                    text-sm
+                    font-medium
+                  ">Contacter&nbsp;nous</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+        <a href="#banner-area" class="
+              menu_item
+              bg-gray-500
+              text-white
+              px-3
+              py-2
+              rounded-md
+              text-base
+              block
+              font-medium
+            " aria-current="page">Accueil</a>
+
+        <a href="#about" class="
+              menu_item
+              text-gray-500
+              hover:bg-gray-500 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-base
+              block
+              font-medium
+            ">A propos de nous</a>
+
+        <a href="#project" class="
+              menu_item
+              text-gray-500
+              hover:bg-gray-500 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-base
+              block
+              font-medium
+            ">Projet</a>
+
+        <a href="#members" class="
+              menu_item
+              text-gray-500
+              hover:bg-gray-500 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-base
+              block
+              font-medium
+            ">Membres</a>
+
+        <a href="#supporters" class="
+              menu_item
+              text-gray-500
+              hover:bg-gray-500 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-base
+              block
+              font-medium
+            ">Supporteurs</a>
+
+        <a href="#footer" class="
+              menu_item
+              text-gray-500
+              hover:bg-gray-500 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-base
+              block
+              font-medium
+            ">Sponsors</a>
+
+        <a href="#footer" class="
+              menu_item
+              text-red-400
+              hover:bg-red-400 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-base
+              block
+              font-medium
+            ">Contacter&nbsp;nous</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="w-full">
+
+    <main id="banner-area">
+      <div class="owl-carousel h-full owl-theme">
+        <div class="item">
+          <figure class="relative bannerFigure">
+            <img src="/images/bannerPic1.jpg">
+            <figcaption class="absolute bottom-0 left-0 w-full h-full">
+              <div class="w-full h-full flex items-end justify-center lg:py-10 lg:px-20 md:py-5 md:px-5 py-2 px-2">
+                <div
+                  class="flex flex-col items-center p-1 sm:p-2 md:p-3 lg:p-4 xl:p-5 rounded md:rounded-lg xl:rounded-xl">
+                  <h1 class="2xl:text-5xl xl:text-4xl lg:text-3xl md:text-2xl sm:text-xl text-lg font-bold italic">Title
+                    1</h1>
+                  <p class="lg:text-sm text-xs sm:inline hidden p-indent mt-2">Lorem ipsum dolor sit, amet consectetur
+                    adipisicing elit. At est totam necessitatibus laboriosam expedita pariatur aut, ab tempora maxime
+                    facilis ex accusantium doloribus, quo esse suscipit provident velit nam dicta in et odit vitae,
+                    libero optio beatae. Neque veritatis modi tempora et sint ab odit beatae, fugit ipsam! Beatae
+                    officiis voluptas tempore distinctio natus sint, velit id sequi debitis eveniet recusandae illo
+                    blanditiis unde repellendus impedit, aspernatur voluptatibus fuga cum repudiandae eius omnis vero?
+                    Accusantium libero vero, perspiciatis excepturi beatae obcaecati officiis aliquid illum laboriosam
+                    quam quasi numquam ratione aspernatur ullam culpa magnam mollitia, optio non voluptatem dicta
+                    temporibus! Aliquam.</p>
+                </div>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="item">
+          <figure class="relative bannerFigure">
+            <img src="/images/bannerPic2.jpg">
+            <figcaption class="absolute bottom-0 left-0 w-full h-full">
+              <div class="w-full h-full flex items-end justify-center lg:py-10 lg:px-20 md:py-5 md:px-5 py-2 px-2">
+                <div
+                  class="flex flex-col items-center p-1 sm:p-2 md:p-3 lg:p-4 xl:p-5 rounded md:rounded-lg xl:rounded-xl">
+                  <h1 class="2xl:text-5xl xl:text-4xl lg:text-3xl md:text-2xl sm:text-xl text-lg font-bold italic">Title
+                    2</h1>
+                  <p class="lg:text-sm text-xs sm:inline hidden p-indent mt-2">Lorem ipsum dolor sit, amet consectetur
+                    adipisicing elit. At est totam necessitatibus laboriosam expedita pariatur aut, ab tempora maxime
+                    facilis ex accusantium doloribus, quo esse suscipit provident velit nam dicta in et odit vitae,
+                    libero optio beatae. Neque veritatis modi tempora et sint ab odit beatae, fugit ipsam! Beatae
+                    officiis voluptas tempore distinctio natus sint, velit id sequi debitis eveniet recusandae illo
+                    blanditiis unde repellendus impedit, aspernatur voluptatibus fuga cum repudiandae eius omnis vero?
+                    Accusantium libero vero, perspiciatis excepturi beatae obcaecati officiis aliquid illum laboriosam
+                    quam quasi numquam ratione aspernatur ullam culpa magnam mollitia, optio non voluptatem dicta
+                    temporibus! Aliquam.</p>
+                </div>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </main>
+
+    <section id="about">
+      <div class="flex flex-col justify-center">
+        <div class="relative py-3 sm:max-w-4xl sm:mx-auto">
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-red-300 to-gray-300 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
+          </div>
+          <div class="relative bg-white shadow-lg sm:rounded-3xl">
+            <div class="grid md:grid-cols-2 grid-cols-3">
+              <div class="col-span-1 flex items-center">
+                <img src="/images/marc-heckner-FVNuq6YQwps-unsplash.jpg" class="md:rounded-l-3xl" />
+              </div>
+              <div class="px-5 py-10 flex flex-col justify-center col-span-2 md:col-span-1">
+                <div class="text-center font-noto-sans-bold italic text-3xl mb-5">
+                  A PROPOS DE NOUS
+                </div>
+                <div class="text-xs text-justify">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Inventore ut quod laboriosam, modi
+                  laudantium obcaecati harum ratione fugiat quasi fugit corrupti at eum neque possimus aut dolores
+                  molestiae! Qui quia quibusdam vero dolorum error, iusto exercitationem nostrum nemo maiores esse ullam
+                  est animi, suscipit numquam repellendus odio atque facilis. Eligendi nulla, deleniti hic dolores
+                  voluptatum, magnam a inventore voluptas libero tempore officiis unde perspiciatis temporibus
+                  voluptatem harum est vero quo? Fugit voluptate nihil qui praesentium quia, rem ut ipsum animi eos
+                  eaque iusto inventore, dignissimos quas, suscipit iure. Iure obcaecati accusamus placeat autem ratione
+                  cumque minima quia quod ipsa commodi?
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="project">
+      <div class=" flex flex-col justify-center ">
+        <div class="relative sm:max-w-4xl sm:mx-auto">
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-red-300 to-gray-300 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:rotate-6 sm:rounded-3xl">
+          </div>
+          <div class="relative bg-white shadow-lg sm:rounded-3xl">
+            <div class="grid md:grid-cols-2 grid-cols-3">
+              <div class="px-5 py-10 flex flex-col justify-center col-span-2 md:col-span-1">
+                <div class="text-center font-noto-sans-bold italic text-3xl mb-5">
+                  PROJET ENSATRIC
+                </div>
+                <div class="text-xs text-justify">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Inventore ut quod laboriosam, modi
+                  laudantium obcaecati harum ratione fugiat quasi fugit corrupti at eum neque possimus aut dolores
+                  molestiae! Qui quia quibusdam vero dolorum error, iusto exercitationem nostrum nemo maiores esse ullam
+                  est animi, suscipit numquam repellendus odio atque facilis. Eligendi nulla, deleniti hic dolores
+                  voluptatum, magnam a inventore voluptas libero tempore officiis unde perspiciatis temporibus
+                  voluptatem harum est vero quo? Fugit voluptate nihil qui praesentium quia, rem ut ipsum animi eos
+                  eaque iusto inventore, dignissimos quas, suscipit iure. Iure obcaecati accusamus placeat autem ratione
+                  cumque minima quia quod ipsa commodi?
+                </div>
+              </div>
+
+              <div class="col-span-1 flex items-center">
+                <img src="/images/sam-pearce-warrilow-fo-IkVn_5rE-unsplash.jpg" class="md:rounded-r-3xl" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="members">
+      <div class="flex flex-col justify-center">
+        <div class="relative sm:max-w-8xl sm:mx-auto">
+          <div class="relative bg-white shadow-lg sm:rounded-xl px-10 py-5">
+            <div class="text-center font-noto-sans-bold italic text-3xl mb-5">
+              MEMBRES DE BUREAU
+            </div>
+
+            <div class="grid md:grid-cols-7 abselote">
+              <div class="text-center mx-5 mt-24">
+                <div class="flex justify-center">
+                  <img class="w-32 rounded-xl border-2"
+                    src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                </div>
+                <div class="text-xl font-bold">Full Name</div>
+                <div class="text-xs italic">Position</div>
+              </div>
+              <div class="text-center mx-5 mt-20">
+                <div class="flex justify-center">
+                  <img class="w-32 rounded-xl border-2"
+                    src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                </div>
+                <div class="text-xl font-bold">Full Name</div>
+                <div class="text-xs italic">Position</div>
+              </div>
+              <div class="text-center mx-5 mt-16">
+                <div class="flex justify-center">
+                  <img class="w-32 rounded-xl border-2"
+                    src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                </div>
+                <div class="text-xl font-bold">Full Name</div>
+                <div class="text-xs italic">Position</div>
+              </div>
+              <div class="text-center mx-5 mt-12">
+                <div class="flex justify-center">
+                  <img class="w-32 rounded-xl border-2"
+                    src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                </div>
+                <div class="text-xl font-bold">Full Name</div>
+                <div class="text-xs italic">Position</div>
+              </div>
+              <div class="text-center mx-5 mt-16">
+                <div class="flex justify-center">
+                  <img class="w-32 rounded-xl border-2"
+                    src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                </div>
+                <div class="text-xl font-bold">Full Name</div>
+                <div class="text-xs italic">Position</div>
+              </div>
+              <div class="text-center mx-5 mt-20">
+                <div class="flex justify-center">
+                  <img class="w-32 rounded-xl border-2"
+                    src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                </div>
+                <div class="text-xl font-bold">Full Name</div>
+                <div class="text-xs italic">Position</div>
+              </div>
+              <div class="text-center mx-5 mt-24">
+                <div class="flex justify-center">
+                  <img class="w-32 rounded-xl border-2"
+                    src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                </div>
+                <div class="text-xl font-bold">Full Name</div>
+                <div class="text-xs italic">Position</div>
+              </div>
+            </div>
+            <div class="flex justify-center relative">
+              <img src="/images/logo-EnsaTric(custom).png" class="w-1/3" alt="">
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="supporters">
+      <div class="py-6 flex flex-col justify-center sm:py-12 my-10">
+        <div class="relative py-3 sm:max-w-4xl sm:mx-auto">
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-red-300 to-gray-300 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:rotate-6 sm:rounded-3xl">
+          </div>
+          <div class="relative bg-white shadow-lg sm:rounded-3xl">
+            <div class="text-center font-noto-sans-bold italic text-3xl py-10">
+              SUPPORTEURS
+            </div>
+
+            <div class="grid md:grid-cols-2 md:border-r-2">
+              <div class="p-5 flex flex-col justify-center">
+                <div class="text-center font-serif italic italic text-2xl py-5 font-bold">
+                  SUPPORTEZ NOUS
+                </div>
+                <div class="text-ms text-justify">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni ipsa magnam dolorem corporis itaque?
+                  Beatae laboriosam vero architecto repellat enim ratione qui, fugit ullam ipsam laborum eaque tempore?
+                  Laborum, mollitia harum. Molestias labore fugit laborum necessitatibus. Perferendis quod minima ex
+                  mollitia magni natus beatae suscipit tempora veniam, corrupti labore eos.
+                </div>
+                <a href="#" class="flex justify-center p-5">
+                  <img src="/images/patreon.png" class="w-16 h-16 rounded-2xl" />
+                  <img src="/images/logo-EnsaTric(custom).png" class="h-16 ml-5 rounded-2xl" />
+                </a>
+              </div>
+
+              <div class="p-5 flex flex-col justify-center md:border-l-2">
+                <div class="text-center font-serif italic italic text-2xl py-5 font-bold">
+                  NOS TOP SUPPORTEURS
+                </div>
+                <div class="grid grid-rows">
+                  <div class="text-center my-2">
+                    <div class="flex justify-center">
+                      <img class="w-32 rounded-full p-1 border-4 border-red-400"
+                        src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                    </div>
+                    <div class="text-xl font-bold">Full Name</div>
+                  </div>
+
+                  <div class="flex space-x-10 justify-center">
+                    <div class="text-center my-2">
+                      <div class="flex justify-center">
+                        <img class="w-32 rounded-full p-1 border-4 border-red-400"
+                          src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                      </div>
+                      <div class="text-xl font-bold">Full Name</div>
+                    </div>
+
+                    <div class="text-center my-2">
+                      <div class="flex justify-center">
+                        <img class="w-32 rounded-full p-1 border-4 border-red-400"
+                          src="/images/young-beautiful-woman-looking-at-camera-trendy-girl-in-casual-summer-white-t-shirt-and-jeans-shorts-positive-female-shows-facial-emotions-funny-model-isolated-on-yellow.jpg" />
+                      </div>
+                      <div class="text-xl font-bold">Full Name</div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="footer">
+      <div class="w-full bg-white shadow-inner">
+        <div class="text-center font-noto-sans-bold italic text-3xl py-5">
+          NOS SPONSORS
+        </div>
+
+        <div class="flex justify-center">
+          <div class="owl-carousel max-w-6xl">
+            <div class="item">
+              <div class="flex items-center justify-center">
+                <img class="h-7 py-10" src="/images/Bank-chaabi-logo.png" alt="Bank Chaabi">
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="flex items-center justify-center">
+                <img class="h-7 py-10" src="/images/logo-universite-ibn-zohr-agadir-uiz.png" alt="Ibn Zohr">
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="flex items-center justify-center">
+                <img class="h-7 py-10" src="/images/Symbole-Renault.jpg" alt="Renault">
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="flex items-center justify-center">
+                <img class="h-7 py-10" src="/images/Shell-logo.jpg" alt="Shell">
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="flex items-center justify-center">
+                <img class="h-7 py-10" src="/images/TOTAL_Logo_Horizontal_RGB.jpg" alt="Total">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="w-full py-5 px-2 md:px-36 text-gray-700">
+        <div class="grid md:grid-cols-3">
+          <div class="p-5">
+            <div class="text-center font-noto-sans font-bold italic text-3xl py-5">
+              A PROPOS DE NOUS
+            </div>
+            <div class="text-xs text-justify">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim recusandae harum voluptatem vitae
+              aspernatur obcaecati facilis reiciendis consectetur quo reprehenderit, ab vero at sequi rem cupiditate,
+              repellendus quos blanditiis consequatur.
+            </div>
+          </div>
+
+          <div class="p-5">
+            <div class="text-center font-noto-sans font-bold italic text-3xl py-5">
+              CONTACTEZ NOUS
+            </div>
+            <div>
+              <form method="post" action="/contact" id="form">
+                <label class="font-bold italic" for="email">Email :</label></br>
+                <input class="rounded w-full mb-3 px-1" type="email" required="required" placeholder="Email" name="email" /></br>
+                <label class="font-bold italic" for="message">Message :</label></br>
+                <textarea class="rounded w-full px-1" name="message" required="required" placeholder="Message" name="message"></textarea>
+                <div class="flex justify-center">
+                  <button type="submit" name="submit"
+                    class="btn px-10 font-bold italic rounded bg-white text-red-400 hover:bg-red-400 hover:text-white">Envoyer</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="p-5">
+            <div class="text-center font-noto-sans font-bold italic text-3xl py-5">
+              SUIVEZ NOUS
+            </div>
+            <div class="flex space-x-3 justify-center">
+              <a href="#"><i class="fab fa-facebook-square fa-2x"></i></a>
+              <a href="#"><i class="fab fa-instagram fa-2x"></i></a>
+              <a href="#"><i class="fab fa-linkedin fa-2x"></i></a>
+            </div>
+
+            <div class="text-center font-noto-sans font-bold italic text-3xl py-5">
+              PLUS D'INFORMATIONS
+            </div>
+            <div class="flex flex-col items-center">
+              <div>
+                <div class="flex space-x-2 items-center">
+                  <i class="fas fa-envelope fa-lg"></i>
+                  <span>ensatric@gmail.com</span>
+                </div>
+                <div class="flex space-x-2 items-center">
+                  <i class="fas fa-phone-square fa-lg"></i>
+                  <span>06xxxxxxxx</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="flex justify-center space-x-2 items-center font-bold">
+          <i class="far fa-copyright fa-lg"></i>
+          <span>2020-2021 - Created by APPS Club - ENSA AGADIR</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+  <!--Owl Carousel JS file-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+    integrity="sha256-pTxD+DSzIwmwhOqTFN+DB+nHjO4iAsbgfyFq5K5bcE0=" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+  <!-- Isotope plugin cdn -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"
+    integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+  <script src="/javascripts/index.js"></script>
+</body>
+
 </html>

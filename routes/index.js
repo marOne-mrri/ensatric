@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', result: null, errors: null });
+router.get('/', function (req, res, next) {
+  res.render('index', { title: 'ENSA Tric' });
 });
 
 module.exports = router;
