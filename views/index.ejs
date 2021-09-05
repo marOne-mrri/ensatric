@@ -165,7 +165,7 @@
                 mt-10
                 lg:static lg:inset-auto lg:ml-6 lg:pr-0
               ">
-            <div>
+            <div class="mt-2">
               <a href="#" class="
                     bg-red-400
                     text-white
@@ -588,7 +588,7 @@
             <div class="text-center font-noto-sans font-bold italic text-3xl py-5">
               A PROPOS DE NOUS
             </div>
-            <div class="text-xs text-justify">
+            <div class="text-sm text-justify">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim recusandae harum voluptatem vitae
               aspernatur obcaecati facilis reiciendis consectetur quo reprehenderit, ab vero at sequi rem cupiditate,
               repellendus quos blanditiis consequatur.
@@ -602,12 +602,14 @@
             <div>
               <form method="post" action="/contact" id="form">
                 <label class="font-bold italic" for="email">Email :</label></br>
-                <input class="rounded w-full mb-3 px-1" type="email" required="required" placeholder="Email" name="email" /></br>
+                <input class="rounded w-full mb-3 px-1" type="email" required="required" placeholder="Email"
+                  name="email" /></br>
                 <label class="font-bold italic" for="message">Message :</label></br>
-                <textarea class="rounded w-full px-1" name="message" required="required" placeholder="Message" name="message"></textarea>
+                <textarea class="rounded w-full px-1" style="resize:none" name="message" rows="5" required="required"
+                  placeholder="Message" name="message"></textarea>
                 <div class="flex justify-center">
                   <button type="submit" name="submit"
-                    class="btn px-10 font-bold italic rounded bg-white text-red-400 hover:bg-red-400 hover:text-white">Envoyer</button>
+                    class="btn px-10 font-bold italic mt-4 rounded bg-white text-red-400 hover:bg-red-400 hover:text-white">Envoyer</button>
                 </div>
               </form>
             </div>
@@ -649,6 +651,11 @@
       </div>
     </section>
 
+  </div>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <p class="text-center font-bold text-xl" id="message"></p>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

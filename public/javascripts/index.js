@@ -43,6 +43,7 @@ btn.addEventListener("click", () => {
 });
 
 const form = document.getElementById("form");
+const modal = document.getElementById("myModal");
 form.addEventListener("submit", event => {
     event.preventDefault();
     console.log("hi");
@@ -53,11 +54,28 @@ form.addEventListener("submit", event => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }, 
+        },
         body: JSON.stringify({ email: formData.get("email"), message: formData.get("message") })
     })
         .then(response => response.json())
         .then(data => {
+            modal.style.display = "block";
+            const textMessage = document.getElementById("message");
+            if (data.result === "yes") {
+                textMessage.style.color = "green";
+                textMessage.innerHTML = "success: " + data.message;
+            } else {
+                textMessage.style.color = "red";
+                textMessage.innerHTML = "error in the: " + data.at + ", " + data.message;
+            }
+            if (modal.style.display === "block") {
+                setTimeout(() => modal.style.display = "none", 5000);
+            }
+            window.onclick = event => {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
             console.log('Success:', data);
         })
         .catch((error) => {
